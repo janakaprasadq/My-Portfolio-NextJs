@@ -44,7 +44,7 @@ export default function ResumePageRoot() {
         <div className="flex justify-between items-center mb-8">
           <SectionTitle title="Resume" />
           <a
-            href="/cv/janaka-prasad-cv.pdf"
+            href="/cv/janaka-prasad-cv-v2.pdf"
             download
             className="flex items-center px-5 py-2 bg-primary hover:bg-primary/80 
     text-white rounded-full transition-colors shadow-lg shadow-primary/20 border border-primary/50"
