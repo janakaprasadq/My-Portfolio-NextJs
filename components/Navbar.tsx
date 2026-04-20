@@ -19,6 +19,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
+    return null;
+  }
+
   // Scroll effect
   useEffect(() => {
     const handleScroll = () => {

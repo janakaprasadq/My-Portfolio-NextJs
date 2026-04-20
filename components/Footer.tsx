@@ -1,9 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { personalInfo } from "@/data";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
+    return null;
+  }
   return (
     <footer className="bg-dark border-t border-white/5 pt-12 pb-8 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />

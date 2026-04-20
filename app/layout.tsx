@@ -14,6 +14,8 @@ export const metadata: Metadata = {
     "Portfolio of Janaka Prasad — Full Stack Developer specializing in React, Next.js, Node.js, Spring Boot, and scalable system design.",
 };
 
+import Providers from "@/components/Providers";
+
 export default function RootLayout({
   children,
 }: {
@@ -26,23 +28,25 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} bg-dark text-white antialiased overflow-x-hidden`}>
-        {/* 🔥 Global Click Effects (optional component) */}
-        <ClickSparkle />
+        <Providers>
+          {/* 🔥 Global Click Effects (optional component) */}
+          <ClickSparkle />
 
-        {/* 🌈 Global Glow Background */}
-        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute -top-[10%] -left-[15%] w-[40%] h-[40%] rounded-full bg-electric/20 blur-[120px]" />
-          <div className="absolute top-[25%] right-[0%] w-[30%] h-[30%] rounded-full bg-secondary/10 blur-[120px]" />
-          <div className="absolute bottom-[0%] left-[25%] w-[35%] h-[35%] rounded-full bg-primary/10 blur-[120px]" />
-        </div>
+          {/* 🌈 Global Glow Background */}
+          <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+            <div className="absolute -top-[10%] -left-[15%] w-[40%] h-[40%] rounded-full bg-electric/20 blur-[120px]" />
+            <div className="absolute top-[25%] right-[0%] w-[30%] h-[30%] rounded-full bg-secondary/10 blur-[120px]" />
+            <div className="absolute bottom-[0%] left-[25%] w-[35%] h-[35%] rounded-full bg-primary/10 blur-[120px]" />
+          </div>
 
-        {/* 🔼 Navbar */}
-        <Navbar />
+          {/* 🔼 Navbar */}
+          <Navbar />
 
-        <main className="relative z-10 min-h-screen">{children}</main>
+          <main className="relative z-10 min-h-screen">{children}</main>
 
-        {/* 🔽 Footer */}
-        <Footer />
+          {/* 🔽 Footer */}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

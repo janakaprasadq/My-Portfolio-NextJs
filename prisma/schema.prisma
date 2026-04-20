@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Portfolio Models
+model Project {
+  id              String   @id @default(cuid())
+  title           String
+  category        String
+  description     String
+  longDescription String?
+  techStack       String[]
+  imageUrl        String
+  gallery         String[]
+  features        String[]
+  featureList     ProjectFeature[]
+  liveDemoUrl     String?
+  githubUrl       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ProjectFeature {
+  id          String  @id @default(cuid())
+  label       String
+  description String?
+  projectId   String
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id          String   @id @default(cuid())
+  role        String
+  company     String
+  period      String
+  description String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  degree      String
+  institution String
+  period      String
+  details     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SkillCategory {
+  id        String   @id @default(cuid())
+  name      String
+  skills    String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Basic Profile Information
+model Profile {
+  id        String   @id @default("main")
+  name      String
+  role      String
+  tagline   String
+  email     String
+  phone     String
+  location  String
+  linkedin  String
+  github    String
+  about     String
+  updatedAt DateTime @updatedAt
+}
+
+// NextAuth Models (Basic for owner access)
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+}
