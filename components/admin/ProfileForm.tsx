@@ -25,7 +25,7 @@ export default function ProfileForm({ initialData }: { initialData: Profile }) {
     try {
       await updateProfile(formData);
       alert("Profile updated successfully!");
-    } catch (error) {
+    } catch {
       alert("Failed to update profile");
     } finally {
       setLoading(false);

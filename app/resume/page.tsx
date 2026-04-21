@@ -40,7 +40,7 @@ export default function ResumePageRoot() {
           </motion.div>
 
           <p className="text-center text-gray-500 text-sm italic">
-            Note: If the preview doesn't load, please use the download button above.
+            Note: If the preview doesn&apos;t load, please use the download button above.
           </p>
         </div>
       </div>

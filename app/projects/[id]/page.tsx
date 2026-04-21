@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 import ProjectDetailsClient from "@/components/ProjectDetailsClient";
 import { notFound } from "next/navigation";
 

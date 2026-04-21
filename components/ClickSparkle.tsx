@@ -15,8 +15,7 @@ interface Particle {
   decay: number;
 }
 
-const colors = ["#3A0CA3", "#7209B7", "#F72585", "#4CC9F0", "#FFFFFF"];
-const shapes = ["⭐", "✦", "✧", "●", "◆", "▲", "✺"];
+
 
 export default function ClickSparkle() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

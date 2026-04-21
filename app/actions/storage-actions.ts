@@ -1,7 +1,6 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
 
 export async function uploadImage(formData: FormData) {
   const file = formData.get("file") as File;
@@ -15,7 +14,7 @@ export async function uploadImage(formData: FormData) {
   const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
   const filePath = `uploads/${fileName}`;
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from(bucket)
     .upload(filePath, file);
 

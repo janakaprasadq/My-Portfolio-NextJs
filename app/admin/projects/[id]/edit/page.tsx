@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 import ProjectForm from "@/components/admin/ProjectForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -11,6 +12,10 @@ export default async function EditProjectPage({
 }) {
   const { id } = await params;
   
+  if (!id || id === "%5Bid%5D") {
+    notFound();
+  }
+
   const project = await prisma.project.findUnique({
     where: { id },
     include: {

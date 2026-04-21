@@ -4,11 +4,20 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Project } from "@prisma/client";
 import { createProject, updateProject } from "@/app/actions/project-actions";
-import { Save, X, Plus, Trash2, ImageIcon } from "lucide-react";
+import { Save, X, Plus, Trash2 } from "lucide-react";
 import ImageUpload from "./ImageUpload";
 
 interface ProjectFormProps {
   initialData?: Project;
+}
+
+interface Feature {
+  label: string;
+  description: string;
+}
+
+interface ProjectWithFeatures extends Project {
+  featureList: { label: string; description: string | null }[];
 }
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
@@ -26,7 +35,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     githubUrl: initialData?.githubUrl || "",
     techStack: initialData?.techStack || [],
     gallery: initialData?.gallery || [],
-    features: (initialData as any)?.featureList?.map((f: any) => ({
+    features: (((initialData as unknown) as ProjectWithFeatures)?.featureList || []).map((f: { label: string; description?: string | null }) => ({
       label: f.label,
       description: f.description || "",
     })) || [],
@@ -42,7 +51,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
   const addListItem = (field: "techStack" | "gallery" | "features") => {
     const newValue = field === "features" ? { label: "", description: "" } : "";
-    setFormData({ ...formData, [field]: [...formData[field], newValue as any] });
+    setFormData({ ...formData, [field]: [...formData[field], newValue as unknown as string] });
   };
 
   const removeListItem = (field: "techStack" | "gallery" | "features", index: number) => {
@@ -63,7 +72,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       }
       router.push("/admin/projects");
       router.refresh();
-    } catch (error) {
+    } catch {
       alert("Something went wrong!");
     } finally {
       setLoading(false);
@@ -140,7 +149,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             </div>
             
             <div className="space-y-4">
-              {formData.features.map((feature: any, idx) => (
+              {formData.features.map((feature: Feature, idx: number) => (
                 <div key={idx} className="p-4 bg-white/5 border border-white/10 rounded-xl space-y-3 relative group">
                   <button 
                     type="button" 

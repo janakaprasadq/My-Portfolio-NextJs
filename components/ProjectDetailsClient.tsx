@@ -8,8 +8,17 @@ import { ArrowLeft, Github, ExternalLink, Layers, CheckCircle, Image as ImageIco
 import { Project } from "@prisma/client";
 import ImageViewer from "@/components/ImageViewer";
 
+interface Feature {
+  label: string;
+  description: string | null;
+}
+
+interface ProjectWithFeatures extends Project {
+  featureList: Feature[];
+}
+
 interface ProjectDetailsClientProps {
-  project: Project;
+  project: ProjectWithFeatures;
 }
 
 export default function ProjectDetailsClient({ project }: ProjectDetailsClientProps) {
@@ -77,13 +86,13 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
             </div>
 
             {/* Features */}
-            {(project as any).featureList && (project as any).featureList.length > 0 && (
+            {project.featureList && project.featureList.length > 0 && (
               <div>
                 <h2 className="text-2xl font-bold text-white mb-6">
                   Key Features
                 </h2>
                 <div className="space-y-4">
-                  {(project as any).featureList.map((feature: any, idx: number) => (
+                  {project.featureList.map((feature, idx) => (
                     <FeatureItem key={idx} feature={feature} />
                   ))}
                 </div>
@@ -168,7 +177,7 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
     </div>
   );
 }
-function FeatureItem({ feature }: { feature: any }) {
+function FeatureItem({ feature }: { feature: Feature }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
