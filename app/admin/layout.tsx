@@ -9,7 +9,8 @@ import {
   Code2, 
   Settings,
   LogOut,
-  FolderKanban
+  FolderKanban,
+  Award
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -26,6 +27,7 @@ export default function AdminLayout({
     { name: "Experience", href: "/admin/experience", icon: Briefcase },
     { name: "Education", href: "/admin/education", icon: GraduationCap },
     { name: "Skills", href: "/admin/skills", icon: Code2 },
+    { name: "Certificates", href: "/admin/certificates", icon: Award },
     { name: "Profile", href: "/admin/profile", icon: Settings },
   ];
 

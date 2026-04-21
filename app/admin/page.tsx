@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { FolderKanban, Briefcase, GraduationCap, Code2 } from "lucide-react";
+import { FolderKanban, Briefcase, GraduationCap, Code2, Award } from "lucide-react";
 
 export default async function AdminDashboard() {
   // We'll catch errors if DB is not yet set up
@@ -8,23 +8,26 @@ export default async function AdminDashboard() {
     experience: 0,
     education: 0,
     skills: 0,
+    certificates: 0,
   };
 
   try {
-    const [projectsCount, expCount, eduCount, skillsCount] = await Promise.all([
+    const [projectsCount, expCount, eduCount, skillsCount, certCount] = await Promise.all([
       prisma.project.count(),
       prisma.experience.count(),
       prisma.education.count(),
       prisma.skillCategory.count(),
+      prisma.certificate.count(),
     ]);
     stats = {
       projects: projectsCount,
       experience: expCount,
       education: eduCount,
       skills: skillsCount,
+      certificates: certCount,
     };
-  } catch {
-    console.warn("Database not yet initialized or connected.");
+  } catch (error) {
+    console.error("Database connection error:", error);
   }
 
   const statCards = [
@@ -32,6 +35,7 @@ export default async function AdminDashboard() {
     { name: "Experience", value: stats.experience, icon: Briefcase, color: "text-green-400" },
     { name: "Education", value: stats.education, icon: GraduationCap, color: "text-purple-400" },
     { name: "Skills", value: stats.skills, icon: Code2, color: "text-orange-400" },
+    { name: "Certificates", value: stats.certificates, icon: Award, color: "text-pink-400" },
   ];
 
   return (
