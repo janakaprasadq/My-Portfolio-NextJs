@@ -38,7 +38,7 @@ export default function SkillsManager({ initialData }: { initialData: SkillCateg
         setIsAdding(false);
       }
       setFormData({ name: "", skills: [] });
-    } catch (error) {
+    } catch {
       alert("Failed to save skill category");
     }
   };

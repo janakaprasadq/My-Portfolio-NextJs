@@ -19,10 +19,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
-    return null;
-  }
-
   // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +27,10 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
+    return null;
+  }
 
   const navLinks = [
     { name: "Home", path: "/", icon: <Home size={18} /> },

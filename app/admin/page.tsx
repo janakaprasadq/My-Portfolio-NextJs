@@ -23,7 +23,7 @@ export default async function AdminDashboard() {
       education: eduCount,
       skills: skillsCount,
     };
-  } catch (error) {
+  } catch {
     console.warn("Database not yet initialized or connected.");
   }
 

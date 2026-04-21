@@ -6,8 +6,7 @@ import {
   Trash2, 
   Plus, 
   ExternalLink, 
-  Search,
-  MoreVertical
+  Search
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -30,7 +29,7 @@ export default function ProjectTable({ projects }: ProjectTableProps) {
     if (confirm(`Are you sure you want to delete "${title}"?`)) {
       try {
         await deleteProject(id);
-      } catch (error) {
+      } catch {
         alert("Failed to delete project");
       }
     }

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { uploadImage, deleteImage } from "@/app/actions/storage-actions";
-import { Upload, X, ImageIcon, Loader2 } from "lucide-react";
+import { uploadImage } from "@/app/actions/storage-actions";
+import { Upload, X, Loader2 } from "lucide-react";
 import Image from "next/image";
 
 interface ImageUploadProps {

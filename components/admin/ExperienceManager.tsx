@@ -1,7 +1,7 @@
 "use client";
 
 import { Experience } from "@prisma/client";
-import { Plus, Trash2, Pencil, Save, X } from "lucide-react";
+import { Plus, Trash2, Pencil, Save } from "lucide-react";
 import { useState } from "react";
 import { createExperience, updateExperience, deleteExperience } from "@/app/actions/resume-actions";
 
@@ -40,7 +40,7 @@ export default function ExperienceManager({ initialData }: { initialData: Experi
         setIsAdding(false);
       }
       setFormData({ role: "", company: "", period: "", description: [""] });
-    } catch (error) {
+    } catch {
       alert("Failed to save experience");
     }
   };

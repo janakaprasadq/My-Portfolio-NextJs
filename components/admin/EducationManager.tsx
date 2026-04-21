@@ -1,7 +1,7 @@
 "use client";
 
 import { Education } from "@prisma/client";
-import { Plus, Trash2, Pencil, Save, X } from "lucide-react";
+import { Plus, Trash2, Pencil, Save } from "lucide-react";
 import { useState } from "react";
 import { createEducation, updateEducation, deleteEducation } from "@/app/actions/resume-actions";
 
@@ -30,7 +30,7 @@ export default function EducationManager({ initialData }: { initialData: Educati
         setIsAdding(false);
       }
       setFormData({ degree: "", institution: "", period: "", details: "" });
-    } catch (error) {
+    } catch {
       alert("Failed to save education");
     }
   };
