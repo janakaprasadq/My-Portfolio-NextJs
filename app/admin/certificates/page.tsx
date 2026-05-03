@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import CertificateManager from "@/components/admin/CertificateManager";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminCertificatesPage() {
   const certificates = await prisma.certificate.findMany({
     orderBy: {
