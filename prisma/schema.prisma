@@ -97,3 +97,12 @@ model User {
   emailVerified DateTime?
   image         String?
 }
+
+// Custom Analytics
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  country   String?  // Tracked via Vercel headers
+  city      String?  // Tracked via Vercel headers
+  createdAt DateTime @default(now())
+}

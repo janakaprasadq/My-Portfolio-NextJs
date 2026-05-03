@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ClickSparkle from "@/components/ClickSparkle";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -46,6 +47,7 @@ export default function RootLayout({
 
           {/* 🔽 Footer */}
           <Footer />
+          <AnalyticsTracker />
         </Providers>
       </body>
     </html>
