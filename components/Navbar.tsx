@@ -11,7 +11,9 @@ import {
   Mail,
   FileText,
   Home,
+  Search,
 } from "lucide-react";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
@@ -80,8 +82,20 @@ export default function Navbar() {
                   <span>{link.name}</span>
                 </Link>
               ))}
+
+              {/* Command Palette Button */}
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+                className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-primary/40 transition-all text-xs cursor-pointer ml-2"
+                title="Search or jump to command (⌘K / Ctrl+K)"
+              >
+                <Search size={14} className="text-primary" />
+                <span className="hidden lg:inline">Search</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-gray-300 font-mono">⌘K</kbd>
+              </button>
             </div>
           </div>
+
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">

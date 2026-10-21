@@ -29,7 +29,7 @@ export default function ImageUpload({ value, onChange, label, bucket = "portfoli
       onChange(result.url);
     } catch (error) {
       console.error("Upload failed", error);
-      alert("Upload failed. Make sure you've created the 'portfolio' bucket in Supabase and set it to public.");
+      alert(error instanceof Error ? error.message : "Upload failed. Please ensure file is JPEG, PNG, or WebP under 5 MB.");
     } finally {
       setUploading(false);
     }

@@ -2,9 +2,23 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-export async function createProject(data: { title: string; category: string; description: string; longDescription?: string; imageUrl: string; gallery: string[]; techStack: string[]; features: { label: string; description?: string | null }[]; liveDemoUrl?: string | null; githubUrl?: string | null }) {
+import { assertAdminSession } from "@/lib/auth-guard";
+
+export async function createProject(data: {
+  title: string;
+  category: string;
+  description: string;
+  longDescription?: string;
+  imageUrl: string;
+  gallery: string[];
+  techStack: string[];
+  features: { label: string; description?: string | null }[];
+  liveDemoUrl?: string | null;
+  githubUrl?: string | null;
+}) {
+  await assertAdminSession();
   const { features, ...projectData } = data;
-  
+
   const project = await prisma.project.create({
     data: {
       ...projectData,
@@ -21,7 +35,22 @@ export async function createProject(data: { title: string; category: string; des
   return project;
 }
 
-export async function updateProject(id: string, data: { title: string; category: string; description: string; longDescription?: string; imageUrl: string; gallery: string[]; techStack: string[]; features: { label: string; description?: string | null }[]; liveDemoUrl?: string | null; githubUrl?: string | null }) {
+export async function updateProject(
+  id: string,
+  data: {
+    title: string;
+    category: string;
+    description: string;
+    longDescription?: string;
+    imageUrl: string;
+    gallery: string[];
+    techStack: string[];
+    features: { label: string; description?: string | null }[];
+    liveDemoUrl?: string | null;
+    githubUrl?: string | null;
+  }
+) {
+  await assertAdminSession();
   const { features, ...projectData } = data;
 
   const project = await prisma.project.update({
@@ -44,6 +73,7 @@ export async function updateProject(id: string, data: { title: string; category:
 }
 
 export async function deleteProject(id: string) {
+  await assertAdminSession();
   await prisma.project.delete({
     where: { id },
   });

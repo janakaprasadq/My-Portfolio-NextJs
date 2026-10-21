@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import SectionTitle from "@/components/SectionTitle";
 import { Download, Award, ExternalLink, Calendar, Building2 } from "lucide-react";
 import { Certificate } from "@prisma/client";
+import { trackCustomEvent } from "@/components/AnalyticsTracker";
 
 interface ResumeClientProps {
   certificates: Certificate[];
+  cvUrl: string;
 }
 
-export default function ResumeClient({ certificates }: ResumeClientProps) {
+export default function ResumeClient({ certificates, cvUrl }: ResumeClientProps) {
   return (
     <div className="min-h-screen pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,10 +19,13 @@ export default function ResumeClient({ certificates }: ResumeClientProps) {
         <div className="flex justify-between items-center mb-8">
           <SectionTitle title="Resume" />
           <a
-            href="/cv/janaka-prasad-cv-v2.pdf"
+            href={cvUrl}
             download
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCustomEvent("/cv/download")}
             className="flex items-center px-5 py-2 bg-primary hover:bg-primary/80 
-    text-white rounded-full transition-colors shadow-lg shadow-primary/20 border border-primary/50"
+    text-white rounded-full transition-colors shadow-lg shadow-primary/20 border border-primary/50 cursor-pointer"
           >
             <Download size={18} className="mr-2" />
             Download PDF
@@ -38,7 +43,7 @@ export default function ResumeClient({ certificates }: ResumeClientProps) {
               className="bg-[#11051F]/50 border border-white/10 rounded-2xl overflow-hidden aspect-[1/1.414] w-full shadow-2xl"
             >
               <iframe
-                src="/cv/janaka-prasad-cv-v2.pdf"
+                src={cvUrl}
                 className="w-full h-full border-none"
                 title="Resume Preview"
               />

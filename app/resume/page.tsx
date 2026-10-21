@@ -1,12 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import ResumeClient from "@/components/ResumeClient";
 
-export default async function ResumePage() {
-  const certificates = await prisma.certificate.findMany({
-    orderBy: {
-      issueDate: "desc",
-    },
-  });
+export const dynamic = "force-dynamic";
 
-  return <ResumeClient certificates={certificates} />;
+export default async function ResumePage() {
+  const [certificates, profile] = await Promise.all([
+    prisma.certificate.findMany({
+      orderBy: { issueDate: "desc" },
+    }),
+    prisma.profile.findFirst({ select: { cvUrl: true } }),
+  ]);
+
+  // Use cloud URL if uploaded, otherwise fall back to the static file in public/cv/
+  const cvUrl = profile?.cvUrl ?? "/cv/janaka-prasad-cv-v2.pdf";
+
+  return <ResumeClient certificates={certificates} cvUrl={cvUrl} />;
 }

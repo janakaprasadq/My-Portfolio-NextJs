@@ -4,10 +4,13 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ClickSparkle from "@/components/ClickSparkle";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import CommandPalette from "@/components/CommandPalette";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { Inter } from "next/font/google";
+import Providers from "@/components/Providers";
+import { prisma } from "@/lib/prisma";
 
 const inter = Inter({ subsets: ["latin"] });
-
 
 export const metadata: Metadata = {
   title: "Janaka Prasad | Full Stack Software Engineer",
@@ -15,22 +18,28 @@ export const metadata: Metadata = {
     "Portfolio of Janaka Prasad — Full Stack Developer specializing in React, Next.js, Node.js, Spring Boot, and scalable system design.",
 };
 
-import Providers from "@/components/Providers";
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch CV URL from DB so CommandPalette can download the latest version
+  let cvUrl = "/cv/janaka-prasad-cv-v2.pdf";
+  try {
+    const profile = await prisma.profile.findFirst({ select: { cvUrl: true } });
+    if (profile?.cvUrl) cvUrl = profile.cvUrl;
+  } catch {
+    // If DB is unavailable, fall back to static file silently
+  }
+
   return (
     <html lang="en" className="dark">
       <head>
-
       </head>
 
       <body className={`${inter.className} bg-dark text-white antialiased overflow-x-hidden`}>
         <Providers>
-          {/* 🔥 Global Click Effects (optional component) */}
+          {/* 🔥 Global Click Effects */}
           <ClickSparkle />
 
           {/* 🌈 Global Glow Background */}
@@ -47,6 +56,8 @@ export default function RootLayout({
 
           {/* 🔽 Footer */}
           <Footer />
+          <CommandPalette cvUrl={cvUrl} />
+          <WhatsAppButton />
           <AnalyticsTracker />
         </Providers>
       </body>

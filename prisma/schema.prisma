@@ -76,6 +76,7 @@ model Profile {
   linkedin  String
   github    String
   about     String
+  cvUrl     String?  // Supabase Storage URL for the uploaded resume PDF
   updatedAt DateTime @updatedAt
 }
 
@@ -106,3 +107,40 @@ model PageView {
   city      String?  // Tracked via Vercel headers
   createdAt DateTime @default(now())
 }
+
+// Contact Inquiries / Lead Capture
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// Client Testimonials & Social Proof
+model Testimonial {
+  id         String   @id @default(cuid())
+  clientName String
+  clientRole String   // e.g., "Founder & CEO"
+  company    String   // e.g., "TechStart Inc"
+  content    String
+  rating     Int      @default(5)
+  avatarUrl  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Freelance & Contract Services
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String   // e.g., Code, Database, Layers, Smartphone
+  tags        String[]
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+

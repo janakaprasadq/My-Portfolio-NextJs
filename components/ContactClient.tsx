@@ -4,21 +4,43 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import SectionTitle from "@/components/SectionTitle";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Profile } from "@prisma/client";
+import { submitContactMessage } from "@/app/actions/contact-actions";
 
 export default function ContactClient({ profile }: { profile: Profile }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    honeypot: "",
+  });
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setStatus(null);
 
-    setTimeout(() => {
-      setLoading(false);
-      alert("Message sent! (Note: This is a demo; real email integration coming soon)");
-    }, 2000);
+    const res = await submitContactMessage(formData);
+    setLoading(false);
+
+    if (res.success) {
+      setStatus({
+        type: "success",
+        message: "Thank you! Your message has been sent successfully. I'll get back to you shortly.",
+      });
+      setFormData({ name: "", email: "", subject: "", message: "", honeypot: "" });
+    } else {
+      setStatus({
+        type: "error",
+        message: res.error || "Failed to send message. Please try again.",
+      });
+    }
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,28 +138,63 @@ export default function ContactClient({ profile }: { profile: Profile }) {
           className="bg-electric/20 border border-white/10 p-8 rounded-2xl backdrop-blur-sm"
         >
           <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
+          
+          {status && (
+            <div
+              className={`p-4 rounded-xl mb-6 flex items-start space-x-3 border ${
+                status.type === "success"
+                  ? "bg-green-500/10 border-green-500/30 text-green-300"
+                  : "bg-red-500/10 border-red-500/30 text-red-300"
+              }`}
+            >
+              {status.type === "success" ? (
+                <CheckCircle2 className="shrink-0 mt-0.5 text-green-400" size={20} />
+              ) : (
+                <AlertCircle className="shrink-0 mt-0.5 text-red-400" size={20} />
+              )}
+              <span className="text-sm font-medium">{status.message}</span>
+            </div>
+          )}
+
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Honeypot field for bot protection */}
+            <input
+              type="text"
+              name="honeypot"
+              value={formData.honeypot}
+              onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden opacity-0 absolute -z-10 pointer-events-none"
+              aria-hidden="true"
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
-                  Name
+                  Name *
                 </label>
                 <input
                   id="name"
                   type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Your Name"
-                  className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-600"
+                  className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-600 transition-colors"
                 />
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
-                  Email
+                  Email *
                 </label>
                 <input
                   id="email"
                   type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="your@email.com"
-                  className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-600"
+                  className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-600 transition-colors"
                 />
               </div>
             </div>
@@ -148,32 +205,37 @@ export default function ContactClient({ profile }: { profile: Profile }) {
               <input
                 id="subject"
                 type="text"
-                placeholder="Project Inquiry"
-                className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-600"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                placeholder="Project Inquiry / Job Opportunity"
+                className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-600 transition-colors"
               />
             </div>
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
-                Message
+                Message *
               </label>
               <textarea
                 id="message"
                 rows={5}
-                placeholder="Tell me about your project..."
-                className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary resize-none placeholder-gray-600"
+                required
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                placeholder="Tell me about your project, timeline, and requirements..."
+                className="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary resize-none placeholder-gray-600 transition-colors"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className={`w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center ${
+              className={`w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center cursor-pointer ${
                 loading ? "opacity-60 cursor-not-allowed" : "hover:shadow-secondary/40 hover:-translate-y-1"
               }`}
             >
               {loading ? (
                 <>
-                  <div className="w-7 h-7 rounded-full bg-white/20 border-2 border-white/30 border-t-white animate-spin mr-3"></div>
-                  Sending...
+                  <div className="w-5 h-5 rounded-full bg-white/20 border-2 border-white/30 border-t-white animate-spin mr-3"></div>
+                  Sending Message...
                 </>
               ) : (
                 <>

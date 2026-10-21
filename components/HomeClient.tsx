@@ -10,7 +10,9 @@ import {
   Linkedin,
 } from "lucide-react";
 import FloatingIcons from "@/components/FloatingIcons";
-import { Profile } from "@prisma/client";
+import { Profile, Testimonial } from "@prisma/client";
+import ServicesSection from "@/components/ServicesSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 const roles = [
   "Software Engineer",
@@ -20,7 +22,14 @@ const roles = [
   "React Developer",
 ];
 
-export default function HomeClient({ profile }: { profile: Profile }) {
+export default function HomeClient({ 
+  profile, 
+  testimonials = [] 
+}: { 
+  profile: Profile;
+  testimonials?: Testimonial[];
+}) {
+
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -47,6 +56,7 @@ export default function HomeClient({ profile }: { profile: Profile }) {
   }, [displayText, isDeleting, roleIndex]);
 
   return (
+    <>
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-[#030014]">
       {/* CYBER GRID */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] z-0 pointer-events-none" />
@@ -169,5 +179,11 @@ export default function HomeClient({ profile }: { profile: Profile }) {
         </div>
       </div>
     </div>
+
+    {/* SERVICES & TESTIMONIALS */}
+    <ServicesSection />
+    <TestimonialsSection testimonials={testimonials} />
+    </>
   );
 }
+

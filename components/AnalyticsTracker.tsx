@@ -3,6 +3,21 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+export function trackCustomEvent(eventPath: string) {
+  try {
+    fetch("/api/analytics", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ path: eventPath }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    // Silent fail
+  }
+}
+
 export default function AnalyticsTracker() {
   const pathname = usePathname();
 

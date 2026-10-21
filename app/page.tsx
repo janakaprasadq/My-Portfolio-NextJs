@@ -3,13 +3,16 @@ import HomeClient from "@/components/HomeClient";
 import { notFound } from "next/navigation";
 
 export default async function HomePage() {
-  const profile = await prisma.profile.findFirst();
+  const [profile, testimonials] = await Promise.all([
+    prisma.profile.findFirst(),
+    prisma.testimonial.findMany({
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   if (!profile) {
-    // If no profile yet, we could show a fallback or redirect to setup
-    // But since we seeded, it should exist.
     return notFound();
   }
 
-  return <HomeClient profile={profile} />;
+  return <HomeClient profile={profile} testimonials={testimonials} />;
 }
