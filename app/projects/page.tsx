@@ -1,6 +1,18 @@
+import { Metadata } from "next";
 import SectionTitle from "@/components/SectionTitle";
 import { prisma } from "@/lib/prisma";
 import ProjectsList from "@/components/ProjectsList";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Explore full-stack web applications, SaaS platforms, and software engineering projects built by Janaka Prasad with Next.js, React, Node.js, and Supabase.",
+  openGraph: {
+    title: "Projects Portfolio | Janaka Prasad",
+    description:
+      "A showcase of real-world full-stack web applications, REST APIs, and system architectures built by Janaka Prasad.",
+  },
+};
 
 export default async function ProjectsPage() {
   const projects = await prisma.project.findMany({
