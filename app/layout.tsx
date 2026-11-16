@@ -2,16 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import ClickSparkle from "@/components/ClickSparkle";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CommandPalette from "@/components/CommandPalette";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import JsonLd from "@/components/JsonLd";
-import { Inter } from "next/font/google";
 import Providers from "@/components/Providers";
 import { prisma } from "@/lib/prisma";
-
-const inter = Inter({ subsets: ["latin"] });
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
@@ -102,19 +98,26 @@ export default async function RootLayout({
         <JsonLd />
       </head>
 
-      <body className={`${inter.className} bg-dark text-white antialiased overflow-x-hidden`}>
+      <body className="bg-dark text-ink-primary font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-dark">
         <Providers>
-          {/* 🔥 Global Click Effects */}
-          <ClickSparkle />
-
-          {/* 🌈 Global Glow Background */}
+          {/* Architectural Background Grid */}
           <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-            <div className="absolute -top-[10%] -left-[15%] w-[40%] h-[40%] rounded-full bg-electric/20 blur-[120px]" />
-            <div className="absolute top-[25%] right-[0%] w-[30%] h-[30%] rounded-full bg-secondary/10 blur-[120px]" />
-            <div className="absolute bottom-[0%] left-[25%] w-[35%] h-[35%] rounded-full bg-primary/10 blur-[120px]" />
+            <div 
+              className="absolute inset-0 opacity-[0.035]"
+              style={{
+                backgroundImage: "linear-gradient(to right, #e5ece8 1px, transparent 1px), linear-gradient(to bottom, #e5ece8 1px, transparent 1px)",
+                backgroundSize: "48px 48px",
+              }}
+            />
+            <div 
+              className="absolute inset-0 opacity-40"
+              style={{
+                background: "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(232, 122, 36, 0.08), transparent 70%)",
+              }}
+            />
           </div>
 
-          {/* 🔼 Navbar */}
+          {/* 🔼 Header / Navigation */}
           <Navbar />
 
           <main className="relative z-10 min-h-screen">{children}</main>

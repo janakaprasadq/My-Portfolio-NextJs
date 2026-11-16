@@ -1,10 +1,31 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#7209B7;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#F72585;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="128" fill="url(#grad)" />
-  <text x="50%" y="54%" font-family="Arial, sans-serif" font-weight="bold" font-size="260" fill="white" text-anchor="middle" alignment-baseline="middle">JP</text>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ground Slate Surface -->
+  <rect width="512" height="512" rx="48" fill="#0a0d0e" />
+  
+  <!-- Architectural Inner Frame -->
+  <rect x="24" y="24" width="464" height="464" rx="32" fill="#101415" stroke="#1e2624" stroke-width="12" />
+  
+  <!-- Technical Reticle Corners (Safety Amber) -->
+  <path d="M 40 84 L 40 40 L 84 40" stroke="#e87a24" stroke-width="12" stroke-linecap="square" />
+  <path d="M 472 84 L 472 40 L 428 40" stroke="#e87a24" stroke-width="12" stroke-linecap="square" />
+  <path d="M 40 428 L 40 472 L 84 472" stroke="#e87a24" stroke-width="12" stroke-linecap="square" />
+  <path d="M 472 428 L 472 472 L 428 472" stroke="#e87a24" stroke-width="12" stroke-linecap="square" />
+
+  <!-- Technical Spec Grid Indicator Line -->
+  <line x1="40" y1="120" x2="472" y2="120" stroke="#1e2624" stroke-width="6" stroke-dasharray="8 8" />
+
+  <!-- Monogram JP -->
+  <text 
+    x="236" 
+    y="336" 
+    font-family="'Space Grotesk', 'JetBrains Mono', 'Segoe UI', system-ui, -apple-system, sans-serif" 
+    font-weight="800" 
+    font-size="210" 
+    fill="#e5ece8" 
+    text-anchor="middle"
+    letter-spacing="-6"
+  >JP</text>
+
+  <!-- Safety Amber System Status Dot -->
+  <rect x="372" y="306" width="30" height="30" fill="#e87a24" />
 </svg>

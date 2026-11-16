@@ -1,40 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #7209B7;
-  --color-secondary: #F72585;
-  --color-electric: #3A0CA3;
-  --color-accent: #4CC9F0;
-  --color-dark: #0A0015;
-  --color-glass: rgba(255, 255, 255, 0.03);
-  --color-glass-hover: rgba(247, 37, 133, 0.1);
+  --color-dark: #0a0d0e;
+  --color-dark-panel: #101415;
+  --color-dark-surface: #141a18;
+  --color-dark-muted: #1a221f;
+  
+  --color-primary: #e87a24;
+  --color-primary-hover: #f38a38;
+  --color-secondary: #81918a;
+  --color-electric: #1e2624;
+  --color-accent: #e87a24;
+  --color-accent-subtle: rgba(232, 122, 36, 0.08);
 
-  --font-sans: "Inter", sans-serif;
+  --color-ink-primary: #e5ece8;
+  --color-ink-secondary: #81918a;
+  --color-ink-muted: #53625b;
+  --color-hairline: #1e2624;
+  --color-hairline-bright: #2d3834;
+
+  --color-glass: rgba(16, 20, 21, 0.85);
+  --color-glass-hover: rgba(232, 122, 36, 0.05);
+
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-float: float 6s ease-in-out infinite;
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-  }
 }
 
-/* GLOBAL STYLES */
+/* GLOBAL RESET & TECHNICAL SPEC STYLES */
 body {
-  background-color: #0A0015;
-  color: #f8fafc;
-  font-family: "Inter", sans-serif;
+  background-color: #0a0d0e;
+  color: #e5ece8;
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
 }
 
-/* Scrollbars */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #0A0015; }
+::selection {
+  background-color: #e87a24;
+  color: #0a0d0e;
+}
+
+/* Subtle Technical Scrollbars */
+::-webkit-scrollbar { 
+  width: 6px; 
+}
+::-webkit-scrollbar-track { 
+  background: #0a0d0e; 
+}
 ::-webkit-scrollbar-thumb {
-  background: #3A0CA3;
-  border-radius: 4px;
+  background: #1e2624;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #7209B7;
+  background: #e87a24;
 }

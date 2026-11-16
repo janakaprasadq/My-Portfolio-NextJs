@@ -3,17 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Menu,
-  X,
-  Code,
-  User,
-  Mail,
-  FileText,
-  Home,
-  Search,
-} from "lucide-react";
-
+import { Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
@@ -21,10 +11,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -35,106 +24,113 @@ export default function Navbar() {
   }
 
   const navLinks = [
-    { name: "Home", path: "/", icon: <Home size={18} /> },
-    { name: "About", path: "/about", icon: <User size={18} /> },
-    { name: "Projects", path: "/projects", icon: <Code size={18} /> },
-    { name: "Resume", path: "/resume", icon: <FileText size={18} /> },
-    { name: "Contact", path: "/contact", icon: <Mail size={18} /> },
+    { name: "Overview", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Projects", path: "/projects" },
+    { name: "Resume", path: "/resume" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-50 transition-colors duration-200 border-b ${
         scrolled
-          ? "bg-dark/80 backdrop-blur-md border-b border-white/5"
-          : "bg-transparent"
+          ? "bg-[#0a0d0e]/95 backdrop-blur-md border-[#1e2624]"
+          : "bg-[#0a0d0e]/60 backdrop-blur-sm border-[#1e2624]/60"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary
-                 flex items-center justify-center text-white font-bold text-xl shadow-lg 
-                 shadow-primary/20 group-hover:shadow-secondary/40 transition-all">
-              JP
+        <div className="flex items-center justify-between h-16">
+          {/* Technical Brand Callout */}
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="px-2.5 py-1 border border-[#2d3834] bg-[#121716] group-hover:border-[#e87a24] transition-colors">
+              <span className="font-mono text-xs font-semibold text-[#e87a24] tracking-wider">
+                JP
+              </span>
             </div>
-            <span className="font-bold text-lg tracking-tight text-white group-hover:text-accent transition-colors">
-              Janaka<span className="text-secondary">.Dev</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="font-sans font-semibold text-sm tracking-tight text-[#e5ece8] group-hover:text-white transition-colors">
+                JANAKA PRASAD
+              </span>
+              <span className="font-mono text-[10px] text-[#81918a] tracking-widest uppercase">
+                ENGINEERING SPEC
+              </span>
+            </div>
           </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navLinks.map((link) => (
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.path;
+              return (
                 <Link
                   key={link.name}
                   href={link.path}
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-1 transition-all ${
-                    pathname === link.path
-                      ? "text-accent bg-white/5 border border-accent/20 shadow-[0_0_15px_rgba(76,201,240,0.15)]"
-                      : "text-gray-300 hover:text-white hover:bg-white/5"
+                  className={`px-3 py-1.5 text-xs font-mono tracking-wider transition-colors ${
+                    isActive
+                      ? "text-[#e87a24] bg-[#141a18] border border-[#2d3834]"
+                      : "text-[#81918a] hover:text-[#e5ece8] hover:bg-[#121716] border border-transparent"
                   }`}
                 >
-                  {link.icon}
-                  <span>{link.name}</span>
+                  {link.name}
                 </Link>
-              ))}
+              );
+            })}
 
-              {/* Command Palette Button */}
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
-                className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-primary/40 transition-all text-xs cursor-pointer ml-2"
-                title="Search or jump to command (⌘K / Ctrl+K)"
-              >
-                <Search size={14} className="text-primary" />
-                <span className="hidden lg:inline">Search</span>
-                <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-gray-300 font-mono">⌘K</kbd>
-              </button>
-            </div>
+            {/* Technical Command Palette Keycap */}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+              className="ml-3 flex items-center space-x-2 px-2.5 py-1 text-xs font-mono text-[#81918a] hover:text-[#e5ece8] bg-[#101415] border border-[#1e2624] hover:border-[#2d3834] transition-all cursor-pointer"
+              title="Search or jump to command (⌘K / Ctrl+K)"
+            >
+              <Search size={13} className="text-[#81918a]" />
+              <span className="text-[11px] text-[#53625b]">CMD</span>
+              <kbd className="px-1 text-[10px] bg-[#1a221f] text-[#e87a24] font-mono border border-[#2d3834]">
+                ⌘K
+              </kbd>
+            </button>
           </div>
 
-
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10"
+              className="p-1.5 border border-[#1e2624] bg-[#101415] text-[#81918a] hover:text-[#e5ece8]"
+              aria-label="Toggle navigation"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Dropdown */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-dark/95 backdrop-blur-xl border-b border-white/10"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+            className="md:hidden bg-[#0a0d0e] border-b border-[#1e2624] px-4 py-3 space-y-1"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const isActive = pathname === link.path;
+              return (
                 <Link
                   key={link.name}
                   href={link.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-2 ${
-                    pathname === link.path
-                      ? "text-accent bg-white/10"
-                      : "text-gray-300 hover:text-white hover:bg-white/5"
+                  className={`block px-3 py-2 text-xs font-mono tracking-wider ${
+                    isActive
+                      ? "text-[#e87a24] bg-[#141a18] border-l-2 border-[#e87a24]"
+                      : "text-[#81918a] hover:text-white"
                   }`}
                 >
-                  {link.icon}
-                  <span>{link.name}</span>
+                  {link.name}
                 </Link>
-              ))}
-            </div>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>

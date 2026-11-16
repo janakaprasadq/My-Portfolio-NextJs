@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import ContactClient from "@/components/ContactClient";
-import { notFound } from "next/navigation";
+import { personalInfo } from "@/data";
+import { Profile } from "@prisma/client";
 
 export const metadata: Metadata = {
   title: "Contact & Hire Me",
@@ -15,15 +16,32 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const profile = await prisma.profile.findFirst();
+  let profile: Profile | null = null;
 
-  if (!profile) {
-    notFound();
+  try {
+    profile = await prisma.profile.findFirst();
+  } catch (err) {
+    console.error("Database unavailable in /contact, using static fallback:", err);
   }
 
+  const activeProfile: Profile = profile || {
+    id: "main",
+    name: personalInfo.name,
+    role: personalInfo.role,
+    tagline: personalInfo.tagline,
+    email: personalInfo.email,
+    phone: personalInfo.phone,
+    location: personalInfo.location,
+    linkedin: personalInfo.linkedin,
+    github: personalInfo.github,
+    about: personalInfo.about,
+    cvUrl: "/cv/janaka-prasad-cv-v2.pdf",
+    updatedAt: new Date(),
+  };
+
   return (
-    <div className="min-h-screen pt-24 pb-12">
-      <ContactClient profile={profile} />
+    <div className="min-h-screen">
+      <ContactClient profile={activeProfile} />
     </div>
   );
 }

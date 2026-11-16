@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Github, ExternalLink, Layers, CheckCircle, Image as ImageIcon, ChevronDown } from "lucide-react";
+import { ArrowLeft, Github, ExternalLink, Image as ImageIcon, ChevronDown } from "lucide-react";
 import { Project } from "@prisma/client";
 import ImageViewer from "@/components/ImageViewer";
 
@@ -25,44 +25,52 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
       {/* Back Link */}
       <Link
         href="/projects"
-        className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-8"
+        className="inline-flex items-center font-mono text-xs text-[#81918a] hover:text-[#e87a24] transition-colors mb-8"
       >
-        <ArrowLeft size={20} className="mr-2" /> Back to Projects
+        <ArrowLeft size={14} className="mr-2" />
+        <span>BACK TO ARCHIVED PROJECTS</span>
       </Link>
 
-      {/* Main Card */}
+      {/* Main Spec Frame */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#0A0118] border border-white/10 rounded-3xl overflow-hidden backdrop-blur-sm shadow-2xl"
+        className="bg-[#0c0f10] border border-[#1e2624]"
       >
-        {/* Header Image */}
-        <div className="h-64 md:h-96 relative">
+        {/* Spec Header Bar */}
+        <div className="p-4 bg-[#141a18] border-b border-[#1e2624] flex items-center justify-between font-mono text-xs">
+          <div className="text-[#e87a24] font-semibold flex items-center gap-2">
+            <span className="w-2 h-2 bg-[#e87a24]" />
+            <span>PROJECT SPECIFICATION // {project.category.toUpperCase()}</span>
+          </div>
+          <span className="text-[#53625b] text-[10px] uppercase">ID: {project.id}</span>
+        </div>
+
+        {/* Hero Image Frame */}
+        <div className="h-64 sm:h-96 relative bg-[#101415] border-b border-[#1e2624]">
           <Image
             src={project.imageUrl}
             alt={project.title}
             fill
-            className="object-cover"
+            className="object-cover opacity-80"
             priority
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0d0e] via-[#0a0d0e]/40 to-transparent" />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#030014] to-transparent" />
-
-          <div className="absolute bottom-0 left-0 p-8 md:p-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <div className="absolute bottom-0 left-0 p-6 sm:p-10 w-full">
+            <h1 className="text-3xl sm:text-5xl font-bold text-[#e5ece8] mb-4 uppercase tracking-tight">
               {project.title}
             </h1>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-1.5 font-mono text-xs">
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 text-sm rounded-full bg-primary/20 
-                             text-accent border border-primary/30 backdrop-blur-md"
+                  className="px-2.5 py-1 bg-[#141a18]/90 text-[#81918a] border border-[#1e2624]"
                 >
                   {tech}
                 </span>
@@ -71,29 +79,28 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
           </div>
         </div>
 
-        {/* Body */}
-        <div className="p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Overview + Features */}
-          <div className="md:col-span-2 space-y-8">
-            {/* Overview */}
+        {/* Body Content */}
+        <div className="p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Main Description & Features */}
+          <div className="lg:col-span-8 space-y-10">
             <div>
-              <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
-                <Layers className="mr-2 text-accent" /> Overview
-              </h2>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                {project.longDescription}
+              <div className="font-mono text-xs text-[#53625b] uppercase tracking-wider mb-3">
+                SYSTEM OVERVIEW
+              </div>
+              <p className="text-sm sm:text-base text-[#81918a] leading-relaxed font-sans whitespace-pre-wrap">
+                {project.longDescription || project.description}
               </p>
             </div>
 
-            {/* Features */}
+            {/* Key Features */}
             {project.featureList && project.featureList.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-white mb-6">
-                  Key Features
-                </h2>
-                <div className="space-y-4">
+                <div className="font-mono text-xs text-[#53625b] uppercase tracking-wider mb-4 pb-2 border-b border-[#1e2624]">
+                  ARCHITECTURAL FEATURES & SPECIFICATIONS
+                </div>
+                <div className="space-y-3">
                   {project.featureList.map((feature, idx) => (
-                    <FeatureItem key={idx} feature={feature} />
+                    <FeatureItem key={idx} feature={feature} index={idx} />
                   ))}
                 </div>
               </div>
@@ -101,35 +108,31 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Links Card */}
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="text-lg font-bold text-white mb-4">
-                Project Links
-              </h3>
+          <div className="lg:col-span-4 space-y-6">
+            {/* Project Access */}
+            <div className="bg-[#101415] border border-[#1e2624] p-5">
+              <div className="font-mono text-xs text-[#53625b] uppercase tracking-wider mb-4 pb-2 border-b border-[#1e2624]">
+                DEPLOYMENT CHANNELS
+              </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 font-mono text-xs">
                 {project.liveDemoUrl ? (
                   <a
                     href={project.liveDemoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-full py-3 bg-gradient-to-r 
-                              from-primary to-secondary hover:opacity-90 text-white rounded-lg 
-                              transition-all font-medium shadow-lg shadow-primary/20"
+                    className="flex items-center justify-between w-full p-3 bg-[#e87a24] text-[#0a0d0e] font-semibold hover:bg-[#f38a38] transition-colors"
                   >
-                    <ExternalLink size={18} className="mr-2" />
-                    Live Demo
+                    <span>LIVE DEMO</span>
+                    <ExternalLink size={14} />
                   </a>
                 ) : (
                   <button
                     onClick={() => setIsImageViewerOpen(true)}
-                    className="flex items-center justify-center w-full py-3 bg-gradient-to-r 
-                              from-primary to-secondary hover:opacity-90 text-white rounded-lg 
-                              transition-all font-medium shadow-lg shadow-primary/20"
+                    className="flex items-center justify-between w-full p-3 bg-[#141a18] border border-[#1e2624] hover:border-[#2d3834] text-[#e5ece8] transition-colors cursor-pointer"
                   >
-                    <ImageIcon size={18} className="mr-2" />
-                    View Images
+                    <span>VIEW IMAGE ARCHIVE</span>
+                    <ImageIcon size={14} />
                   </button>
                 )}
 
@@ -138,30 +141,28 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-full py-3 bg-white/10 
-                              hover:bg-white/20 text-white rounded-lg transition-all 
-                              font-medium border border-white/10"
+                    className="flex items-center justify-between w-full p-3 bg-[#141a18] border border-[#1e2624] hover:border-[#2d3834] text-[#81918a] hover:text-[#e5ece8] transition-colors"
                   >
-                    <Github size={18} className="mr-2" />
-                    View Source
+                    <span>SOURCE REPOSITORY</span>
+                    <Github size={14} />
                   </a>
                 )}
               </div>
             </div>
 
-            {/* Hire CTA */}
-            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl p-6 border border-primary/20">
-              <h4 className="text-white font-semibold mb-2">
-                Interested in this stack?
-              </h4>
-              <p className="text-gray-400 text-sm mb-4">
-                I can build similar applications for your needs. Let&apos;s discuss.
+            {/* Architecture Inquiry */}
+            <div className="bg-[#101415] border border-[#1e2624] p-5">
+              <div className="font-mono text-xs text-[#e87a24] uppercase tracking-wider mb-2">
+                STACK CONSULTATION
+              </div>
+              <p className="font-mono text-xs text-[#81918a] leading-relaxed mb-4">
+                Need similar architecture, microservice performance, or low-level systems integration?
               </p>
               <Link
                 href="/contact"
-                className="text-accent text-sm font-medium hover:underline"
+                className="font-mono text-xs text-[#e87a24] hover:underline flex items-center gap-1"
               >
-                Contact Me →
+                <span>Initiate Contact Transmission →</span>
               </Link>
             </div>
           </div>
@@ -177,28 +178,30 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
     </div>
   );
 }
-function FeatureItem({ feature }: { feature: Feature }) {
+
+function FeatureItem({ feature, index }: { feature: Feature; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div 
-      className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-primary/30 transition-colors cursor-pointer"
+    <div
+      className="bg-[#101415] border border-[#1e2624] hover:border-[#2d3834] transition-colors cursor-pointer"
       onClick={() => setIsOpen(!isOpen)}
     >
-      <div className="p-4 flex items-center justify-between">
-        <div className="flex items-center text-gray-200 font-medium">
-          <CheckCircle
-            size={20}
-            className="mr-3 text-secondary flex-shrink-0"
-          />
-          {feature.label}
+      <div className="p-4 flex items-center justify-between text-xs font-mono">
+        <div className="flex items-center gap-3 text-[#e5ece8]">
+          <span className="text-[#e87a24] select-none font-semibold">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="font-sans font-medium text-sm text-[#e5ece8]">
+            {feature.label}
+          </span>
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="text-gray-500"
+          transition={{ duration: 0.2 }}
+          className="text-[#53625b]"
         >
-          <ChevronDown size={20} />
+          <ChevronDown size={16} />
         </motion.div>
       </div>
 
@@ -208,9 +211,9 @@ function FeatureItem({ feature }: { feature: Feature }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="px-11 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-3 mx-4">
+            <div className="px-10 pb-4 text-[#81918a] text-xs leading-relaxed font-sans border-t border-[#1e2624] pt-3">
               {feature.description}
             </div>
           </motion.div>

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Project } from "@prisma/client";
+import { ArrowUpRight } from "lucide-react";
 
 interface ProjectsListProps {
   initialProjects: Project[];
@@ -12,7 +13,7 @@ interface ProjectsListProps {
 
 export default function ProjectsList({ initialProjects }: ProjectsListProps) {
   const [filter, setFilter] = useState("All");
-  
+
   const categories = ["All", ...new Set(initialProjects.map((p) => p.category))];
 
   const filteredProjects =
@@ -22,16 +23,19 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
 
   return (
     <>
-      {/* Filter Tabs */}
-      <div className="flex justify-center mb-12 flex-wrap gap-4">
+      {/* FILTER MONOSPACE SEGMENTS */}
+      <div className="flex items-center gap-1 mb-10 overflow-x-auto pb-2 border-b border-[#1e2624]">
+        <span className="font-mono text-xs text-[#53625b] uppercase mr-3 hidden sm:inline">
+          FILTER SPEC:
+        </span>
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+            className={`px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors ${
               filter === cat
-                ? "bg-primary text-white shadow-lg shadow-primary/25 ring-2 ring-secondary/50"
-                : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                ? "bg-[#141a18] text-[#e87a24] border border-[#2d3834]"
+                : "text-[#81918a] hover:text-[#e5ece8] hover:bg-[#101415] border border-transparent"
             }`}
           >
             {cat}
@@ -39,66 +43,71 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
         ))}
       </div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredProjects.map((project) => (
+      {/* TECHNICAL SPEC PROJECTS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredProjects.map((project, idx) => (
           <motion.div
             key={project.id}
             layout
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="group relative bg-[#0A0118] border border-white/10 rounded-2xl overflow-hidden 
-                       hover:border-secondary/50 transition-all duration-300 
-                       hover:shadow-[0_0_20px_rgba(114,9,183,0.3)]"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
+            className="group bg-[#0c0f10] border border-[#1e2624] hover:border-[#e87a24] transition-colors flex flex-col justify-between"
           >
-            {/* Image */}
-            <div className="aspect-video overflow-hidden relative">
-              <Link href={`/projects/${project.id}`} className="block w-full h-full">
-                <Image
-                  src={project.imageUrl}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 transition-colors duration-300 group-hover:bg-black/20" />
-              </Link>
+            <div>
+              {/* TOP SPEC BAR */}
+              <div className="p-3 bg-[#101415] border-b border-[#1e2624] flex items-center justify-between text-xs font-mono">
+                <span className="text-[#e87a24] font-semibold">
+                  PRJ // {String(idx + 1).padStart(2, "0")}
+                </span>
+                <span className="text-[#81918a] uppercase text-[10px]">
+                  {project.category}
+                </span>
+              </div>
+
+              {/* IMAGE PREVIEW WITH DELIBERATE CROP */}
+              <div className="aspect-[16/10] overflow-hidden relative bg-[#141a18] border-b border-[#1e2624]">
+                <Link href={`/projects/${project.id}`} className="block w-full h-full">
+                  <Image
+                    src={project.imageUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover opacity-85 group-hover:opacity-100 transition-opacity"
+                  />
+                </Link>
+              </div>
+
+              {/* CONTENT */}
+              <div className="p-5">
+                <h3 className="text-base font-bold text-[#e5ece8] mb-2 group-hover:text-white transition-colors">
+                  <Link
+                    href={`/projects/${project.id}`}
+                    className="flex items-center justify-between gap-2"
+                  >
+                    <span>{project.title}</span>
+                    <ArrowUpRight
+                      size={16}
+                      className="text-[#81918a] group-hover:text-[#e87a24] transition-colors shrink-0"
+                    />
+                  </Link>
+                </h3>
+
+                <p className="text-xs text-[#81918a] mb-4 line-clamp-2 leading-relaxed font-sans">
+                  {project.description}
+                </p>
+              </div>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <div className="text-xs font-medium text-accent mb-2 uppercase tracking-wider">
-                {project.category}
-              </div>
-
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
-                <Link href={`/projects/${project.id}`}>
-                  {project.title}
-                </Link>
-              </h3>
-
-              <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mt-auto">
-                {project.techStack.slice(0, 3).map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2 py-1 text-[10px] rounded-md bg-white/5 
-                               border border-white/10 text-gray-300"
-                  >
-                    {tech}
-                  </span>
-                ))}
-
-                {project.techStack.length > 3 && (
-                  <span className="px-2 py-1 text-[10px] rounded-md bg-white/5 
-                                 border border-white/10 text-gray-300">
-                    +{project.techStack.length - 3}
-                  </span>
-                )}
-              </div>
+            {/* TECH STACK FOOTER */}
+            <div className="p-4 bg-[#0a0d0e] border-t border-[#1e2624] flex flex-wrap gap-1.5 font-mono text-[10px]">
+              {project.techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2 py-0.5 bg-[#141a18] border border-[#1e2624] text-[#81918a]"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
           </motion.div>
         ))}

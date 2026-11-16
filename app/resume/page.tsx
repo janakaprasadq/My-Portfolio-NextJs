@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import ResumeClient from "@/components/ResumeClient";
+import { Certificate } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -16,15 +17,21 @@ export const metadata: Metadata = {
 };
 
 export default async function ResumePage() {
-  const [certificates, profile] = await Promise.all([
-    prisma.certificate.findMany({
-      orderBy: { issueDate: "desc" },
-    }),
-    prisma.profile.findFirst({ select: { cvUrl: true } }),
-  ]);
+  let certificates: Certificate[] = [];
+  let cvUrl = "/cv/janaka-prasad-cv-v2.pdf";
 
-  // Use cloud URL if uploaded, otherwise fall back to the static file in public/cv/
-  const cvUrl = profile?.cvUrl ?? "/cv/janaka-prasad-cv-v2.pdf";
+  try {
+    const [dbCerts, profile] = await Promise.all([
+      prisma.certificate.findMany({
+        orderBy: { issueDate: "desc" },
+      }),
+      prisma.profile.findFirst({ select: { cvUrl: true } }),
+    ]);
+    certificates = dbCerts;
+    if (profile?.cvUrl) cvUrl = profile.cvUrl;
+  } catch (err) {
+    console.error("Database unavailable in /resume, using fallback:", err);
+  }
 
   return <ResumeClient certificates={certificates} cvUrl={cvUrl} />;
 }

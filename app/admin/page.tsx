@@ -207,42 +207,43 @@ export default async function AdminDashboard() {
         <div className="flex items-center space-x-3">
           <Link
             href="/admin/messages"
-            className="inline-flex items-center px-4 py-2 rounded-xl bg-secondary/20 hover:bg-secondary/30 text-secondary border border-secondary/30 text-sm font-semibold transition-all"
+            className="inline-flex items-center px-3.5 py-1.5 bg-[#141a18] hover:bg-[#1a221f] text-[#e87a24] border border-[#1e2624] text-xs font-mono font-semibold transition-colors"
           >
-            <Mail size={16} className="mr-2" />
-            Inquiries ({stats.unreadMessages})
+            <Mail size={14} className="mr-2" />
+            INQUIRIES ({stats.unreadMessages})
           </Link>
           <Link
             href="/"
             target="_blank"
-            className="inline-flex items-center px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 text-sm font-medium transition-all"
+            className="inline-flex items-center px-3.5 py-1.5 bg-[#101415] hover:bg-[#141a18] text-[#e5ece8] border border-[#1e2624] text-xs font-mono transition-colors"
           >
-            View Live Site <ArrowUpRight size={16} className="ml-1.5" />
+            <span>LIVE TELEMETRY</span>
+            <ArrowUpRight size={14} className="ml-1.5" />
           </Link>
         </div>
       </div>
 
       {/* Primary KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat) => {
           const Content = (
-            <div className="bg-[#0A0118] border border-white/5 p-5 rounded-2xl hover:border-primary/30 transition-all group relative overflow-hidden h-full flex flex-col justify-between">
+            <div className="bg-[#0c0f10] border border-[#1e2624] p-5 hover:border-[#2d3834] transition-colors group relative flex flex-col justify-between">
               <div className="flex items-center justify-between mb-3">
-                <div className={`p-2.5 rounded-xl bg-white/5 ${stat.color}`}>
-                  <stat.icon size={22} />
+                <div className="p-2 bg-[#141a18] border border-[#1e2624] text-[#e87a24]">
+                  <stat.icon size={18} />
                 </div>
                 {stat.href && (
-                  <span className="text-xs text-gray-500 group-hover:text-primary transition-colors flex items-center">
-                    Manage <ArrowUpRight size={12} className="ml-0.5" />
+                  <span className="text-[11px] font-mono text-[#53625b] group-hover:text-[#e87a24] transition-colors flex items-center uppercase">
+                    SPEC <ArrowUpRight size={12} className="ml-0.5" />
                   </span>
                 )}
               </div>
               <div>
-                <div className="text-3xl font-bold text-white mb-1 group-hover:text-primary transition-colors">
+                <div className="text-2xl font-bold font-mono text-[#e5ece8] mb-1 group-hover:text-white transition-colors">
                   {stat.value}
                 </div>
-                <div className="text-sm font-medium text-gray-300">{stat.name}</div>
-                <div className="text-xs text-gray-500 mt-0.5">{stat.subtext}</div>
+                <div className="text-xs font-semibold text-[#81918a] font-mono uppercase">{stat.name}</div>
+                <div className="text-[11px] text-[#53625b] mt-0.5 font-mono">{stat.subtext}</div>
               </div>
             </div>
           );
@@ -260,70 +261,74 @@ export default async function AdminDashboard() {
       {/* Analytics Visual Breakdown Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* 7-Day Pageviews Trend */}
-        <div className="lg:col-span-8 bg-[#0A0118] border border-white/5 p-6 rounded-2xl flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-6">
+        <div className="lg:col-span-8 bg-[#0c0f10] border border-[#1e2624] p-6 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-[#1e2624]">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-primary/20 rounded-lg text-primary">
-                <TrendingUp size={20} />
+              <div className="p-1.5 bg-[#141a18] border border-[#1e2624] text-[#e87a24]">
+                <TrendingUp size={16} />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">7-Day Visitor Trend</h3>
-                <p className="text-xs text-gray-400">Daily pageviews across all pages</p>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[#e5ece8] font-mono">
+                  7-Day Visitor Telemetry
+                </h3>
+                <p className="text-[11px] font-mono text-[#53625b]">Daily transmission count across routes</p>
               </div>
             </div>
           </div>
 
-          <div className="h-48 flex items-end justify-between gap-3 pt-6 border-b border-white/5 pb-3">
+          <div className="h-44 flex items-end justify-between gap-3 pt-6 border-b border-[#1e2624] pb-3">
             {activityDays.map((day) => {
               const heightPercent = Math.max((day.count / maxDayCount) * 100, 8);
               return (
                 <div key={day.label} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-                  <span className="text-[11px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity font-semibold">
+                  <span className="text-[10px] font-mono text-[#81918a] opacity-0 group-hover:opacity-100 transition-opacity">
                     {day.count}
                   </span>
                   <div
                     style={{ height: `${heightPercent}%` }}
-                    className="w-full max-w-[42px] bg-gradient-to-t from-primary/40 to-secondary rounded-t-lg transition-all group-hover:brightness-125"
+                    className="w-full max-w-[36px] bg-[#e87a24] hover:bg-[#f38a38] transition-colors"
                   />
-                  <span className="text-xs text-gray-400 font-medium">{day.label}</span>
+                  <span className="text-[11px] font-mono text-[#53625b]">{day.label}</span>
                 </div>
               );
             })}
           </div>
-          <div className="flex items-center justify-between pt-3 text-xs text-gray-500">
-            <span>Past 7 days traffic</span>
-            <span className="text-accent font-semibold">Total views: {activityDays.reduce((a, b) => a + b.count, 0)}</span>
+          <div className="flex items-center justify-between pt-3 text-[11px] font-mono text-[#53625b]">
+            <span>TELEMETRY WINDOW: 7 DAYS</span>
+            <span className="text-[#e87a24]">TOTAL VIEWS: {activityDays.reduce((a, b) => a + b.count, 0)}</span>
           </div>
         </div>
 
         {/* Top Countries */}
-        <div className="lg:col-span-4 bg-[#0A0118] border border-white/5 p-6 rounded-2xl">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-400">
-              <Globe size={20} />
+        <div className="lg:col-span-4 bg-[#0c0f10] border border-[#1e2624] p-6">
+          <div className="flex items-center space-x-3 mb-5 pb-3 border-b border-[#1e2624]">
+            <div className="p-1.5 bg-[#141a18] border border-[#1e2624] text-[#e87a24]">
+              <Globe size={16} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Top Locations</h3>
-              <p className="text-xs text-gray-400">Visitors by country</p>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-[#e5ece8] font-mono">
+                Origin Nodes
+              </h3>
+              <p className="text-[11px] font-mono text-[#53625b]">Traffic by geo-location</p>
             </div>
           </div>
 
-          <div className="space-y-3.5">
+          <div className="space-y-2.5">
             {topCountries.length > 0 ? (
               topCountries.map((c) => (
-                <div key={c.country} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center space-x-2 text-gray-300">
-                    <MapPin size={14} className="text-secondary" />
+                <div key={c.country} className="flex items-center justify-between text-xs font-mono p-2 bg-[#101415] border border-[#1e2624]">
+                  <div className="flex items-center space-x-2 text-[#81918a]">
+                    <MapPin size={12} className="text-[#e87a24]" />
                     <span>{c.country}</span>
                   </div>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/5 text-gray-300 border border-white/5">
-                    {c.count} views
+                  <span className="text-[11px] font-semibold text-[#e5ece8]">
+                    {c.count} HITS
                   </span>
                 </div>
               ))
             ) : (
-              <p className="text-xs text-gray-500 py-6 text-center">
-                Country analytics will populate automatically when deployed to Vercel!
+              <p className="text-xs font-mono text-[#53625b] py-6 text-center">
+                NO GEOLOCATION RECORDS DETECTED.
               </p>
             )}
           </div>
@@ -333,73 +338,77 @@ export default async function AdminDashboard() {
       {/* Bottom Grid: Top Pages & Recent Visitors */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Pages */}
-        <div className="bg-[#0A0118] border border-white/5 p-6 rounded-2xl">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400">
-              <Layers size={20} />
+        <div className="bg-[#0c0f10] border border-[#1e2624] p-6">
+          <div className="flex items-center space-x-3 mb-5 pb-3 border-b border-[#1e2624]">
+            <div className="p-1.5 bg-[#141a18] border border-[#1e2624] text-[#e87a24]">
+              <Layers size={16} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Top Visited Pages</h3>
-              <p className="text-xs text-gray-400">Most viewed URLs on your site</p>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-[#e5ece8] font-mono">
+                Route Frequency
+              </h3>
+              <p className="text-[11px] font-mono text-[#53625b]">Most requested resource paths</p>
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {topPages.length > 0 ? (
               topPages.map((p) => (
                 <div
                   key={p.path}
-                  className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 rounded-xl text-sm"
+                  className="flex items-center justify-between p-2.5 bg-[#101415] border border-[#1e2624] text-xs font-mono"
                 >
-                  <span className="font-mono text-xs text-gray-300 truncate max-w-[240px]">
-                    {p.path === "/" ? "/ (Home)" : p.path}
+                  <span className="text-[#81918a] truncate max-w-[240px]">
+                    {p.path === "/" ? "/ (OVERVIEW)" : p.path}
                   </span>
-                  <span className="text-xs font-semibold text-primary">
-                    {p.count} hits
+                  <span className="font-semibold text-[#e87a24]">
+                    {p.count} REQUESTS
                   </span>
                 </div>
               ))
             ) : (
-              <p className="text-xs text-gray-500 py-4 text-center">No pageviews recorded yet.</p>
+              <p className="text-xs font-mono text-[#53625b] py-4 text-center">NO ROUTE RECORDS DETECTED.</p>
             )}
           </div>
         </div>
 
         {/* Recent Visitors */}
-        <div className="bg-[#0A0118] border border-white/5 p-6 rounded-2xl">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="p-2 bg-pink-500/20 rounded-lg text-pink-400">
-              <Eye size={20} />
+        <div className="bg-[#0c0f10] border border-[#1e2624] p-6">
+          <div className="flex items-center space-x-3 mb-5 pb-3 border-b border-[#1e2624]">
+            <div className="p-1.5 bg-[#141a18] border border-[#1e2624] text-[#e87a24]">
+              <Eye size={16} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Recent Visitors</h3>
-              <p className="text-xs text-gray-400">Real-time incoming visits</p>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-[#e5ece8] font-mono">
+                Transmission Ingestion
+              </h3>
+              <p className="text-[11px] font-mono text-[#53625b]">Incoming connection requests</p>
             </div>
           </div>
 
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             {recentVisitors.length > 0 ? (
               recentVisitors.map((visit) => (
                 <div
                   key={visit.id}
-                  className="flex justify-between items-center p-3 bg-white/[0.02] rounded-xl border border-white/5"
+                  className="flex justify-between items-center p-2.5 bg-[#101415] border border-[#1e2624] text-xs font-mono"
                 >
                   <div className="flex flex-col">
-                    <span className="text-white font-medium text-xs">
-                      {visit.path === "/" ? "Home" : visit.path}
+                    <span className="text-[#e5ece8]">
+                      {visit.path === "/" ? "/" : visit.path}
                     </span>
-                    <span className="text-gray-500 text-[11px] flex items-center mt-0.5">
-                      <MapPin size={11} className="mr-1 text-secondary" />
-                      {visit.city || "Unknown City"}, {visit.country || "Unknown Country"}
+                    <span className="text-[#53625b] text-[10px] flex items-center mt-0.5">
+                      <MapPin size={10} className="mr-1 text-[#e87a24]" />
+                      {visit.city || "Unknown City"}, {visit.country || "Unknown"}
                     </span>
                   </div>
-                  <span className="text-[11px] text-gray-400 bg-black/40 px-2 py-0.5 rounded-md font-mono">
+                  <span className="text-[10px] text-[#81918a]">
                     {new Date(visit.createdAt).toLocaleDateString()}
                   </span>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500 text-xs text-center py-4">No visits recorded yet.</p>
+              <p className="text-[#53625b] font-mono text-xs text-center py-4">NO TELEMETRY RECORDED.</p>
             )}
           </div>
         </div>

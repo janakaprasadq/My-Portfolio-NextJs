@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import ProjectDetailsClient from "@/components/ProjectDetailsClient";
 import { notFound } from "next/navigation";
+import { projects as staticProjects } from "@/data";
 
 export const dynamic = "force-dynamic";
 
@@ -11,15 +12,29 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const project = await prisma.project.findUnique({
-    where: { id },
-    select: {
-      title: true,
-      description: true,
-      imageUrl: true,
-      techStack: true,
-    },
-  });
+  let project: { title: string; description: string; imageUrl: string; techStack: string[] } | null = null;
+
+  try {
+    project = await prisma.project.findUnique({
+      where: { id },
+      select: {
+        title: true,
+        description: true,
+        imageUrl: true,
+        techStack: true,
+      },
+    });
+  } catch {
+    const staticP = staticProjects.find((p) => p.id === id);
+    if (staticP) {
+      project = {
+        title: staticP.title,
+        description: staticP.description,
+        imageUrl: staticP.imageUrl,
+        techStack: staticP.techStack,
+      };
+    }
+  }
 
   if (!project) {
     return {
@@ -52,26 +67,70 @@ export async function generateMetadata({
   };
 }
 
+type ProjectWithFeatures = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  longDescription: string | null;
+  techStack: string[];
+  imageUrl: string;
+  gallery: string[];
+  features: string[];
+  featureList: { label: string; description: string | null }[];
+  liveDemoUrl: string | null;
+  githubUrl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export default async function ProjectDetailsPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  let project: ProjectWithFeatures | null = null;
 
-  const project = await prisma.project.findUnique({
-    where: { id },
-    include: {
-      featureList: true,
-    },
-  });
+  try {
+    project = await prisma.project.findUnique({
+      where: { id },
+      include: {
+        featureList: true,
+      },
+    });
+  } catch (err) {
+    console.error("Database unavailable in /projects/[id], checking static fallback:", err);
+  }
+
+  if (!project) {
+    const staticP = staticProjects.find((p) => p.id === id);
+    if (staticP) {
+      project = {
+        id: staticP.id,
+        title: staticP.title,
+        category: staticP.category,
+        description: staticP.description,
+        longDescription: staticP.longDescription || null,
+        techStack: staticP.techStack,
+        imageUrl: staticP.imageUrl,
+        gallery: staticP.gallery || [],
+        features: staticP.features || [],
+        featureList: (staticP.features || []).map((f) => ({ label: f, description: null })),
+        liveDemoUrl: staticP.liveDemoUrl || null,
+        githubUrl: staticP.githubUrl || null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    }
+  }
 
   if (!project) {
     notFound();
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12">
+    <div className="min-h-screen">
       <ProjectDetailsClient project={project} />
     </div>
   );

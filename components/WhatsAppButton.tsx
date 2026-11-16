@@ -11,9 +11,9 @@ export default function WhatsAppButton() {
     return null;
   }
 
-  const phoneNumber = "94770000000"; // Can be updated to Janaka's exact WhatsApp number
+  const phoneNumber = "94713031383"; // From personalInfo in data.ts
   const defaultMessage = encodeURIComponent(
-    "Hi Janaka, I visited your portfolio and would like to discuss an opportunity!"
+    "Hi Janaka, I reviewed your engineering portfolio and would like to discuss a project / role."
   );
 
   const handleClick = () => {
@@ -24,12 +24,12 @@ export default function WhatsAppButton() {
   return (
     <button
       onClick={handleClick}
-      aria-label="Chat on WhatsApp"
-      className="fixed bottom-6 right-6 z-40 group flex items-center bg-[#25D366] text-white p-3.5 rounded-full shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:shadow-[0_0_30px_rgba(37,211,102,0.7)] transition-all transform hover:scale-105 cursor-pointer"
+      aria-label="Direct message via WhatsApp"
+      className="fixed bottom-6 right-6 z-40 group flex items-center bg-[#101415] hover:bg-[#141a18] text-[#e5ece8] border border-[#1e2624] hover:border-[#25D366] px-3.5 py-2 transition-colors cursor-pointer shadow-xl font-mono text-xs"
     >
-      <MessageCircle size={24} className="fill-white text-white" />
-      <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-bold pl-0 group-hover:pl-2">
-        Chat on WhatsApp
+      <MessageCircle size={15} className="text-[#25D366] mr-2 shrink-0" />
+      <span className="text-[11px] font-semibold tracking-wider text-[#81918a] group-hover:text-[#e5ece8]">
+        WHATSAPP // DIRECT
       </span>
     </button>
   );

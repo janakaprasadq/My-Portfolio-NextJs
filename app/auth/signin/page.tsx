@@ -1,33 +1,45 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { Github } from "lucide-react";
+import { Github, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function SignIn() {
   return (
-    <div className="min-h-screen bg-[#030014] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#0a0d0e] flex items-center justify-center p-4">
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-[#0A0118] border border-white/10 p-8 rounded-3xl shadow-2xl"
+        className="max-w-md w-full bg-[#0c0f10] border border-[#1e2624] p-8"
       >
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Admin Access</h1>
-          <p className="text-gray-400 text-sm">Please sign in with GitHub to manage your portfolio.</p>
+        <div className="flex items-center gap-2 mb-6 pb-4 border-b border-[#1e2624]">
+          <Shield size={16} className="text-[#e87a24]" />
+          <span className="font-mono text-xs uppercase tracking-widest text-[#e87a24] font-semibold">
+            ENGINEERING SPEC // ACCESS GATE
+          </span>
+        </div>
+
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold uppercase text-[#e5ece8] tracking-tight mb-2">
+            Administrator Authentication
+          </h1>
+          <p className="font-mono text-xs text-[#81918a]">
+            Identity verification via GitHub OAuth required for administrative commands.
+          </p>
         </div>
 
         <button
           onClick={() => signIn("github", { callbackUrl: "/admin" })}
-          className="w-full flex items-center justify-center space-x-3 py-4 bg-white text-black rounded-xl font-bold hover:bg-gray-200 transition-colors"
+          className="w-full flex items-center justify-center space-x-2 py-3.5 bg-[#e87a24] text-[#0a0d0e] font-mono text-xs font-semibold uppercase tracking-wider hover:bg-[#f38a38] transition-colors cursor-pointer border border-[#e87a24]"
         >
-          <Github />
-          <span>Continue with GitHub</span>
+          <Github size={16} />
+          <span>AUTHENTICATE WITH GITHUB</span>
         </button>
 
-        <p className="mt-8 text-center text-xs text-gray-500 uppercase tracking-widest">
-          Secure Environment
-        </p>
+        <div className="mt-8 pt-4 border-t border-[#1e2624] flex items-center justify-between text-[10px] font-mono text-[#53625b]">
+          <span>SECURE ENVIRONMENT</span>
+          <span>AUTH: NEXTAUTH // OAUTH2</span>
+        </div>
       </motion.div>
     </div>
   );

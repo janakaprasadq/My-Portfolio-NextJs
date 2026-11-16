@@ -227,28 +227,28 @@ export default function CommandPalette({ cvUrl = "/cv/janaka-prasad-cv-v2.pdf" }
 
             {/* Modal Dialog */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
+              initial={{ opacity: 0, scale: 0.98, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-xl bg-[#0A0015] border border-primary/40 rounded-2xl shadow-[0_0_50px_rgba(114,9,183,0.35)] overflow-hidden z-10"
+              exit={{ opacity: 0, scale: 0.98, y: -10 }}
+              transition={{ duration: 0.15 }}
+              className="relative w-full max-w-xl bg-[#0c0f10] border border-[#1e2624] overflow-hidden z-10 shadow-2xl"
             >
               {/* Search Bar Input */}
-              <div className="flex items-center px-4 py-3.5 border-b border-white/10">
-                <Search size={20} className="text-primary mr-3 shrink-0" />
+              <div className="flex items-center px-4 py-3.5 border-b border-[#1e2624] bg-[#101415]">
+                <Search size={16} className="text-[#e87a24] mr-3 shrink-0" />
                 <input
                   type="text"
                   autoFocus
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Type a command or search... (e.g. Projects, Resume, Email)"
-                  className="w-full bg-transparent text-white placeholder-gray-500 text-sm focus:outline-none"
+                  placeholder="TYPE TO SEARCH SPECIFICATION... (e.g. Projects, Resume, Email)"
+                  className="w-full bg-transparent text-[#e5ece8] placeholder-[#53625b] text-xs font-mono focus:outline-none"
                 />
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-gray-500 hover:text-white p-1 rounded-lg cursor-pointer"
+                  className="text-[#53625b] hover:text-[#e5ece8] p-1 cursor-pointer"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
               </div>
 
@@ -261,40 +261,40 @@ export default function CommandPalette({ cvUrl = "/cv/janaka-prasad-cv-v2.pdf" }
                       <button
                         key={item.id}
                         onClick={item.onSelect}
-                        className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all text-left group cursor-pointer"
+                        className="w-full flex items-center justify-between p-2.5 hover:bg-[#141a18] transition-colors text-left group cursor-pointer border border-transparent hover:border-[#1e2624]"
                       >
                         <div className="flex items-center space-x-3 min-w-0">
-                          <div className="p-2 rounded-lg bg-white/5 text-gray-300 group-hover:bg-primary/20 group-hover:text-primary transition-colors shrink-0">
-                            <Icon size={18} />
+                          <div className="p-1.5 bg-[#141a18] border border-[#1e2624] text-[#81918a] group-hover:text-[#e87a24] group-hover:border-[#e87a24] transition-colors shrink-0">
+                            <Icon size={16} />
                           </div>
                           <div className="truncate">
-                            <div className="text-sm font-semibold text-white group-hover:text-accent transition-colors truncate">
+                            <div className="text-xs font-semibold text-[#e5ece8] group-hover:text-[#e87a24] transition-colors truncate font-mono">
                               {item.title}
                             </div>
-                            <div className="text-xs text-gray-400 truncate">
+                            <div className="text-[11px] text-[#81918a] truncate font-sans">
                               {item.subtitle}
                             </div>
                           </div>
                         </div>
 
-                        <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5 ml-3 shrink-0">
+                        <span className="text-[10px] font-mono px-2 py-0.5 bg-[#141a18] text-[#53625b] border border-[#1e2624] ml-3 shrink-0 uppercase">
                           {item.category}
                         </span>
                       </button>
                     );
                   })
                 ) : (
-                  <div className="p-8 text-center text-gray-500 text-sm">
-                    No matching commands found.
+                  <div className="p-8 text-center text-[#53625b] font-mono text-xs">
+                    NO MATCHING SPECIFICATION FOUND.
                   </div>
                 )}
               </div>
 
               {/* Footer */}
-              <div className="px-4 py-2.5 bg-white/[0.02] border-t border-white/5 flex items-center justify-between text-[11px] text-gray-500 font-mono">
-                <span>Navigation & Actions</span>
+              <div className="px-4 py-2 bg-[#101415] border-t border-[#1e2624] flex items-center justify-between text-[11px] text-[#53625b] font-mono">
+                <span>SYSTEM KEYBOARD NAVIGATION</span>
                 <span className="flex items-center gap-1">
-                  Press <kbd className="px-1.5 py-0.5 bg-white/10 text-gray-300 rounded">ESC</kbd> to exit
+                  PRESS <kbd className="px-1.5 py-0.2 bg-[#141a18] border border-[#1e2624] text-[#81918a]">ESC</kbd> TO CLOSE
                 </span>
               </div>
             </motion.div>
