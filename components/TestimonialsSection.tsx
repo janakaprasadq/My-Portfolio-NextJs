@@ -50,7 +50,7 @@ export default function TestimonialsSection({
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-[#e87a24] mb-2 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-[#e87a24]" />
-              02 // ENDORSEMENTS
+              02 &bull; ENDORSEMENTS
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#e5ece8] uppercase">
               Technical Testimonials & Peer Reviews
@@ -76,7 +76,7 @@ export default function TestimonialsSection({
                 {/* REFERENCE METADATA HEADER */}
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#1e2624]">
                   <span className="font-mono text-[10px] text-[#53625b] uppercase tracking-wider">
-                    REF // {String(index + 1).padStart(2, "0")}
+                    REF &bull; {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="font-mono text-[10px] text-[#e87a24] uppercase tracking-wider">
                     VERIFIED CLIENT

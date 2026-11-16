@@ -25,11 +25,11 @@ export default function WhatsAppButton() {
     <button
       onClick={handleClick}
       aria-label="Direct message via WhatsApp"
-      className="fixed bottom-6 right-6 z-40 group flex items-center bg-[#101415] hover:bg-[#141a18] text-[#e5ece8] border border-[#1e2624] hover:border-[#25D366] px-3.5 py-2 transition-colors cursor-pointer shadow-xl font-mono text-xs"
+      className="fixed bottom-6 right-6 z-40 group flex items-center bg-[#101415] hover:bg-[#141a18] text-[#e5ece8] border border-[#1e2624] hover:border-[#25D366] px-3.5 py-2 transition-colors cursor-pointer shadow-xl text-xs"
     >
       <MessageCircle size={15} className="text-[#25D366] mr-2 shrink-0" />
-      <span className="text-[11px] font-semibold tracking-wider text-[#81918a] group-hover:text-[#e5ece8]">
-        WHATSAPP // DIRECT
+      <span className="text-xs font-medium tracking-wide text-[#81918a] group-hover:text-[#e5ece8]">
+        Chat on WhatsApp
       </span>
     </button>
   );

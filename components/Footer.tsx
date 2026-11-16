@@ -40,11 +40,11 @@ export default function Footer() {
             </div>
             <ul className="space-y-2 font-mono text-xs">
               {[
-                { name: "01 // Overview", href: "/" },
-                { name: "02 // About & Background", href: "/about" },
-                { name: "03 // Archived Projects", href: "/projects" },
-                { name: "04 // Technical Resume", href: "/resume" },
-                { name: "05 // Direct Dispatch", href: "/contact" },
+                { name: "01. Overview", href: "/" },
+                { name: "02. About & Background", href: "/about" },
+                { name: "03. Archived Projects", href: "/projects" },
+                { name: "04. Technical Resume", href: "/resume" },
+                { name: "05. Contact & Dispatch", href: "/contact" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link

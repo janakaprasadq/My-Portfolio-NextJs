@@ -64,7 +64,7 @@ export default function ServicesSection() {
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-[#e87a24] mb-2 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-[#e87a24]" />
-              01 // CAPABILITIES
+              01 &bull; CAPABILITIES
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#e5ece8] uppercase">
               Core Engineering Competencies
@@ -89,7 +89,7 @@ export default function ServicesSection() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-mono text-xs text-[#e87a24] font-semibold">
-                    CAPABILITY // {item.index}
+                    CAPABILITY &bull; {item.index}
                   </span>
                   <span className="font-mono text-[10px] text-[#53625b]">
                     READY FOR DEPLOYMENT

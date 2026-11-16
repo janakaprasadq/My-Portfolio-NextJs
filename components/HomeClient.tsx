@@ -53,7 +53,7 @@ export default function HomeClient({
 
               <div className="font-mono text-sm sm:text-base text-[#e87a24] tracking-wider uppercase mb-6 flex items-center gap-2">
                 <Terminal size={18} className="text-[#e87a24]" />
-                <span>{profile.role || "Software Engineer // Full Stack"}</span>
+                <span>{profile.role || "Software Engineer (Full Stack)"}</span>
               </div>
 
               {/* TECHNICAL SUMMARY */}
@@ -148,11 +148,11 @@ export default function HomeClient({
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-[#e5ece8]">Zebra Technologies</span>
-                    <span className="font-mono text-[11px] text-[#81918a]">AOSP Intern // 2025</span>
+                    <span className="font-mono text-[11px] text-[#81918a]">AOSP Intern &bull; 2025</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-[#e5ece8]">Raahi Startup</span>
-                    <span className="font-mono text-[11px] text-[#81918a]">Backend Dev // 2025—Pres</span>
+                    <span className="font-mono text-[11px] text-[#81918a]">Backend Dev &bull; 2025&ndash;Present</span>
                   </div>
                 </div>
               </div>
